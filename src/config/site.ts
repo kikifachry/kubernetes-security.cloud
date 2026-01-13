@@ -8,11 +8,17 @@ export const site = {
   /** Site name displayed in header and footer */
   name: 'Kubernetes Security',
 
+  /** Site URL for Open Graph */
+  url: 'https://kubernetes-security.cloud',
+
   /** Default meta description */
   description: 'A comprehensive reference for Kubernetes security concepts, topics, and best practices.',
 
   /** Copyright holder name */
   copyright: 'Kubernetes Security',
+
+  /** Open Graph image path (relative to public folder) */
+  ogImage: '/og-image.png',
 
   /** Google Analytics Measurement ID (from environment variable, leave empty to disable) */
   googleAnalyticsId: import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID || '',

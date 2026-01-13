@@ -135,11 +135,11 @@ if (topic.data.references) {
           {Array.isArray(topic.data.mitigation) ? (
             <ul class="list-disc ml-6 space-y-2">
               {topic.data.mitigation.map((item: string) => (
-                <li class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={item.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')} />
+                <li class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={item.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">$1</code>')} />
               ))}
             </ul>
           ) : (
-            <p class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={topic.data.mitigation.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')} />
+            <p class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={topic.data.mitigation.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">$1</code>')} />
           )}
         </CardContent>
       </Card>

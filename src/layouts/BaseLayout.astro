@@ -6,11 +6,18 @@ import { site } from '../config/site';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = "An encyclopedia of Kubernetes security - terminology, attack patterns, defensive strategies, and tools" } = Astro.props;
+const { 
+  title, 
+  description = "An encyclopedia of Kubernetes security - terminology, attack patterns, defensive strategies, and tools",
+  image = site.ogImage
+} = Astro.props;
 const currentYear = new Date().getFullYear();
 const gaId = site.googleAnalyticsId;
+const canonicalUrl = new URL(Astro.url.pathname, site.url).href;
+const ogImageUrl = new URL(image, site.url).href;
 ---
 
 <!doctype html>
@@ -33,6 +40,25 @@ const gaId = site.googleAnalyticsId;
     <link rel="manifest" href="/site.webmanifest" />
     
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={site.name} />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100..900&display=swap" rel="stylesheet" />
