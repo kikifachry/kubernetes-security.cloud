@@ -123,32 +123,26 @@
   font-weight: 400;
 }
 
-/* Output code blocks - styled differently from commands (NOT copyable) */
+/* Output code blocks - realistic terminal output style */
 .prose pre[data-language="output"] {
-  background-color: rgb(30 41 59); /* slate-800 - slightly lighter than commands */
-  border-left: 4px solid rgb(100 116 139); /* slate-500 */
+  background-color: rgb(24 24 24); /* Slightly different from command bg */
+  border-radius: 0.375rem;
   position: relative;
-  user-select: none; /* Prevent text selection to hint it's not for copying */
-}
-
-.prose pre[data-language="output"]::before {
-  content: "Output";
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgb(148 163 184); /* slate-400 */
-  background-color: rgb(51 65 85); /* slate-700 */
-  border-bottom-left-radius: 0.375rem;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  padding: 0.875rem 1rem;
+  margin-top: 0.5rem;
+  border-left: 3px solid rgb(80 80 80);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .prose pre[data-language="output"] code {
-  color: rgb(203 213 225); /* slate-300 - slightly muted for output */
+  color: rgb(180 180 180); /* Slightly dimmer than command text */
+  font-size: 0.8em;
+  line-height: 1.5;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* Hide any copy button that might be on output blocks */
@@ -156,29 +150,28 @@
   display: none !important;
 }
 
-/* Bash/Shell command blocks - add visual indicator */
+/* Bash/Shell command blocks - clean terminal style */
 .prose pre[data-language="bash"],
 .prose pre[data-language="shell"],
 .prose pre[data-language="sh"] {
   position: relative;
+  background-color: rgb(30 30 30);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.15),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
-.prose pre[data-language="bash"]::before,
-.prose pre[data-language="shell"]::before,
-.prose pre[data-language="sh"]::before {
-  content: "Terminal";
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgb(134 239 172); /* green-300 */
-  background-color: rgb(20 83 45); /* green-900 */
-  border-bottom-left-radius: 0.375rem;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.prose pre[data-language="bash"] code,
+.prose pre[data-language="shell"] code,
+.prose pre[data-language="sh"] code {
+  color: rgb(204 204 204);
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.6;
 }
 
 /* Copy button for code blocks */
@@ -193,16 +186,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   padding: 0;
-  background-color: rgb(55 65 81); /* gray-700 */
-  border: 1px solid rgb(75 85 99); /* gray-600 */
-  border-radius: 0.375rem;
-  color: rgb(156 163 175); /* gray-400 */
+  background-color: transparent;
+  border: 1px solid rgb(80 80 80);
+  border-radius: 0.25rem;
+  color: rgb(120 120 120);
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+  transition: opacity 0.2s, background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .prose pre:hover .copy-button {
@@ -210,14 +203,15 @@
 }
 
 .copy-button:hover {
-  background-color: rgb(75 85 99); /* gray-600 */
-  color: rgb(229 231 235); /* gray-200 */
+  background-color: rgb(60 60 60);
+  border-color: rgb(100 100 100);
+  color: rgb(180 180 180);
 }
 
 .copy-button.copied {
-  background-color: rgb(22 101 52); /* green-800 */
-  border-color: rgb(34 197 94); /* green-500 */
-  color: rgb(134 239 172); /* green-300 */
+  background-color: rgb(50 50 50);
+  border-color: rgb(100 100 100);
+  color: rgb(160 160 160);
 }
 
 .copy-button .hidden {

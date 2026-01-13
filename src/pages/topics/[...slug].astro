@@ -135,11 +135,11 @@ if (topic.data.references) {
           {Array.isArray(topic.data.mitigation) ? (
             <ul class="list-disc ml-6 space-y-2">
               {topic.data.mitigation.map((item: string) => (
-                <li class="text-gray-700 text-base md:text-lg leading-relaxed">{item}</li>
+                <li class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={item.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')} />
               ))}
             </ul>
           ) : (
-            <p class="text-gray-700 text-base md:text-lg leading-relaxed">{topic.data.mitigation}</p>
+            <p class="text-gray-700 text-base md:text-lg leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800" set:html={topic.data.mitigation.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')} />
           )}
         </CardContent>
       </Card>
