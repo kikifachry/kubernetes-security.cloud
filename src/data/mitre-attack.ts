@@ -217,6 +217,14 @@ export const mitreTechniques: Record<string, MitreTechnique> = {
       'Adversaries may attempt to discover containers and other resources that are available within a containers environment.',
     url: 'https://attack.mitre.org/techniques/T1613',
   },
+  T1036: {
+    id: 'T1036',
+    name: 'Masquerading',
+    tactic: 'Defense Evasion',
+    description:
+      'Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and security tools.',
+    url: 'https://attack.mitre.org/techniques/T1036',
+  },
 };
 
 /**
