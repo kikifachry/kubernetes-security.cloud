@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import yaml from '@rollup/plugin-yaml';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), mdx()],
+  site: 'https://kubernetes-security.cloud',
+  integrations: [tailwind(), mdx(), sitemap()],
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
