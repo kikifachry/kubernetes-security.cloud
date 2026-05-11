@@ -97,6 +97,14 @@ export const mitreTechniques: Record<string, MitreTechnique> = {
       'Adversaries may create or modify system processes to repeatedly execute malicious payloads as part of persistence.',
     url: 'https://attack.mitre.org/techniques/T1543',
   },
+  'T1543.005': {
+    id: 'T1543.005',
+    name: 'Container Service',
+    tactic: 'Persistence, Privilege Escalation',
+    description:
+      'Adversaries may create or modify container or container cluster management tools (for example Docker, Podman, or kubelet) that run on hosts to persist or escalate privileges.',
+    url: 'https://attack.mitre.org/techniques/T1543/005',
+  },
   T1136: {
     id: 'T1136',
     name: 'Create Account',
@@ -120,6 +128,14 @@ export const mitreTechniques: Record<string, MitreTechnique> = {
     description:
       'Adversaries may maliciously modify components of a victim environment in order to hinder or disable defensive mechanisms.',
     url: 'https://attack.mitre.org/techniques/T1562',
+  },
+  T1564: {
+    id: 'T1564',
+    name: 'Hide Artifacts',
+    tactic: 'Defense Evasion',
+    description:
+      'Adversaries may attempt to hide artifacts associated with their behaviors to evade detection, such as files, directories, user accounts, or other system activity.',
+    url: 'https://attack.mitre.org/techniques/T1564',
   },
   T1046: {
     id: 'T1046',
