@@ -56,10 +56,12 @@ const baseSite = Astro.site ?? new URL(site.url);
 const sitePublicUrl = baseSite.href.replace(/\/$/, '');
 const canonicalUrl = new URL(Astro.url.pathname, baseSite).href;
 const ogImageUrl = new URL(image, baseSite).href;
+/** RDFa-style vocabulary prefixes — helps some crawlers (e.g. LinkedIn) resolve `og:*` / `article:*` properties. */
+const ogHtmlPrefix = 'og: http://ogp.me/ns# article: http://ogp.me/ns/article#';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix={ogHtmlPrefix}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={metaDescription} />

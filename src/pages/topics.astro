@@ -361,6 +361,7 @@ function getPhaseIconPath(phase?: string): string {
       {sortedTopics.map((topic) => {
         const categoryColors = getCategoryColors(topic.data.category);
         const phase = topic.data.phase ?? topic.data.offensiveType;
+        const phaseSlug = typeof phase === 'string' ? phase : '';
         const phaseLabel = formatPhase(phase);
         const phaseClass = getPhaseBadgeClass(phase);
         return (
@@ -368,6 +369,7 @@ function getPhaseIconPath(phase?: string): string {
             href={`/topics/${topic.slug}`} 
             class="block topic-card group" 
             data-category={topic.data.category}
+            data-phase={phaseSlug}
             data-title={topic.data.title.toLowerCase()}
             data-description={topic.data.description.toLowerCase()}
           >
@@ -641,12 +643,17 @@ function getPhaseIconPath(phase?: string): string {
 
           const searchQuery = searchInput?.value.toLowerCase().trim() || '';
           const activeCategories = new Set<string>();
+          const activePhases = new Set<string>();
 
-          activeFiltersSet.forEach(tagKey => {
-            const [type, value] = tagKey.split(':');
-            if (type === 'category') {
-              activeCategories.add(value);
-            }
+          activeFiltersSet.forEach((tagKey) => {
+            const firstColon = tagKey.indexOf(':');
+            if (firstColon === -1) return;
+            const type = tagKey.slice(0, firstColon);
+            const afterType = tagKey.slice(firstColon + 1);
+            const secondColon = afterType.indexOf(':');
+            const value = secondColon === -1 ? afterType : afterType.slice(0, secondColon);
+            if (type === 'category') activeCategories.add(value);
+            if (type === 'phase') activePhases.add(value);
           });
 
           let visibleCount = 0;
@@ -654,6 +661,7 @@ function getPhaseIconPath(phase?: string): string {
           topicCards.forEach(card => {
             const cardElement = card as HTMLElement;
             const category = cardElement.dataset.category || '';
+            const cardPhase = cardElement.dataset.phase || '';
             const title = cardElement.dataset.title || '';
             const description = cardElement.dataset.description || '';
 
@@ -663,7 +671,10 @@ function getPhaseIconPath(phase?: string): string {
 
             const matchesCategory = activeCategories.size === 0 || activeCategories.has(category);
 
-            if (matchesSearch && matchesCategory) {
+            const matchesPhase =
+              activePhases.size === 0 || (cardPhase.length > 0 && activePhases.has(cardPhase));
+
+            if (matchesSearch && matchesCategory && matchesPhase) {
               cardElement.style.display = 'block';
               visibleCount++;
             } else {
