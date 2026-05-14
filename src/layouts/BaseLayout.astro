@@ -123,6 +123,7 @@ const ogImageUrl = new URL(image, baseSite).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content={resolvedImageAlt} />
     {ogImageUrl.startsWith('https://') && (
       <meta property="og:image:secure_url" content={ogImageUrl} />
