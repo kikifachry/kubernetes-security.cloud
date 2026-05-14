@@ -17,6 +17,10 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  /** Pixel width of `image` (optional; improves OG/Twitter previews when set) */
+  imageWidth?: number;
+  /** Pixel height of `image` (optional; improves OG/Twitter previews when set) */
+  imageHeight?: number;
   /** Open Graph type — use `article` for topic/glossary entries */
   ogType?: 'website' | 'article';
   /** Shown as `article:section` when `ogType` is `article` */
@@ -33,6 +37,8 @@ const {
   title,
   description: descriptionProp,
   image = site.ogImage,
+  imageWidth,
+  imageHeight,
   ogType = 'website',
   section,
   imageAlt,
@@ -115,6 +121,12 @@ const ogImageUrl = new URL(image, site.url).href;
     <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={resolvedImageAlt} />
+    {typeof imageWidth === 'number' && typeof imageHeight === 'number' && (
+      <>
+        <meta property="og:image:width" content={String(imageWidth)} />
+        <meta property="og:image:height" content={String(imageHeight)} />
+      </>
+    )}
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="en_US" />
     {ogType === 'article' && section && (

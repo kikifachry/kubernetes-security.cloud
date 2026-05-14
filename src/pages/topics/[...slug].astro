@@ -9,6 +9,7 @@ import CategoryIcon from '../../components/CategoryIcon.astro';
 import { getCategoryColors } from '../../components/CategoryColors.astro';
 import { getTools, getToolTypes } from '../../data/tools';
 import { getToolTypeColors } from '../../utils/colors';
+import { TOPIC_OG_HEIGHT, TOPIC_OG_WIDTH } from '../../config/topic-og';
 
 export async function getStaticPaths() {
   const topics = await getCollection('topics');
@@ -122,6 +123,10 @@ const impactLinkParentClass =
 <BaseLayout
   title={`${topic.data.title} - Topics`}
   description={topic.data.description}
+  image={`/og/topics/${topic.slug}.png`}
+  imageWidth={TOPIC_OG_WIDTH}
+  imageHeight={TOPIC_OG_HEIGHT}
+  imageAlt={`${topic.data.title} — Kubernetes security topic`}
   ogType="article"
   section={topic.data.category}
   publishedTime={publishedTime}
