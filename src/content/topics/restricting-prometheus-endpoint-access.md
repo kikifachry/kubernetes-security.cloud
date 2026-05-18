@@ -79,14 +79,7 @@ Requests with valid credentials return `200 OK`:
 HTTP/1.1 200 OK
 ```
 
-If you are using the [prometheus-community Helm chart](https://github.com/prometheus-community/helm-charts), pass the flag via `server.extraFlags` and mount the ConfigMap via `server.extraVolumes` and `server.extraVolumeMounts`. The chart's default liveness and readiness probes hit `/-/healthy` via plain HTTP without credentials. After enabling basic auth, those probes return `401` and the kubelet restarts the container in a loop. Set `server.probeHeaders` to inject the `Authorization` header into both probes:
-
-```yaml
-server:
-  probeHeaders:
-    - name: "Authorization"
-      value: "Basic <base64-encoded-user:password>"
-```
+If using the [prometheus-community Helm chart](https://github.com/prometheus-community/helm-charts), you may need to configure health probes to use basic auth credentials, as the default probes typically use plain HTTP. Consult the chart documentation for the specific configuration options available in your chart version.
 
 ## Restricting Access with NetworkPolicy
 
@@ -131,13 +124,19 @@ To also allow access from a specific namespace such as a dedicated Grafana names
       port: 9090
 ```
 
-NetworkPolicy enforcement depends on the CNI plugin. Calico and Cilium enforce NetworkPolicy rules.
+NetworkPolicy enforcement depends on the CNI plugin. CNIs like Calico, Cilium, Weave Net, and others support NetworkPolicy enforcement.
 
 ## Limitations
 
-Basic auth credentials are transmitted in the `Authorization` header as a base64-encoded string. Without TLS, credentials are readable on the network. Configure TLS on the Prometheus endpoint alongside basic auth, or terminate TLS at an ingress or sidecar proxy in front of the service.
+- **Authentication weaknesses**: Basic auth credentials are transmitted as base64-encoded strings. Without TLS, credentials are readable on the network. Basic auth also lacks modern security features like multi-factor authentication or token expiration.
 
-NetworkPolicy restricts pod-to-pod access but does not protect against connections initiated by users with `kubectl port-forward` access to the Prometheus pod or namespace. Restricting the `pods/portforward` verb via RBAC covers that path. A role that grants read access to pods without allowing port-forward:
+- **Credential management**: The bcrypt passwords must be stored in ConfigMaps or Secrets. Credential rotation requires updating the ConfigMap and restarting Prometheus pods.
+
+- **Network bypass methods**: NetworkPolicy only restricts pod-to-pod traffic. It does not protect against `kubectl port-forward` (which bypasses the pod network), direct node access, or external service exposure via NodePort, LoadBalancer, or Ingress.
+
+- **Administrative endpoints**: Basic auth protects the metrics API, but Prometheus exposes administrative endpoints like `/-/reload` and `/-/quit` that may require separate protection.
+
+- **RBAC for port-forward**: Restricting the `pods/portforward` verb via RBAC covers kubectl access. A role that grants read access to pods without allowing port-forward:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -157,4 +156,3 @@ Any attempt to port-forward without the `pods/portforward` verb is rejected at t
 error: pods "prometheus-server-8545d4469-dq4td" is forbidden: User "system:serviceaccount:monitoring:restricted-user" cannot create resource "pods/portforward" in API group "" in the namespace "monitoring"
 ```
 
-Basic auth credentials are transmitted in the `Authorization` header as a base64-encoded `username:password` string. The value `Basic YWRtaW46cHJvbS1zZWNyZXQ=` decodes to `admin:prom-secret`. Without TLS on the connection, any party observing the traffic can read the credentials. Configure TLS on the Prometheus endpoint or terminate it at an ingress or sidecar proxy in front of the service.
