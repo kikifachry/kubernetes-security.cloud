@@ -1,6 +1,6 @@
 ---
 title: GKE Anonymous Reconnaissance
-description: Exposing GKE patch versions and cluster topology to unauthenticated clients when anonymousAuthenticationConfig is ENABLED
+description: Exposing GKE patch versions and cluster configuration to unauthenticated clients when anonymousAuthenticationConfig is ENABLED
 category: offensive
 phase: reconnaissance
 createdAt: 2026-05-18
